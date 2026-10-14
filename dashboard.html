@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Compta Coffrets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f7f3ec;
+  --surface: #fffdf9;
+  --surface-2: #f1ebe0;
+  --border: #e4dccd;
+  --ink: #1f1a14;
+  --ink-2: #5b5246;
+  --ink-3: #8a8072;
+  --accent: #7a2e3a;
+  --accent-soft: #f3e3e3;
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --good: #1a7f37;
+  --bad: #b42318;
+  --warn: #9a6700;
+  --warn-soft: #fff4d6;
+  --shadow: 0 1px 2px rgba(31,26,20,.06), 0 4px 16px rgba(31,26,20,.05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #15130f; --surface: #1e1b17; --surface-2: #2a2620; --border: #39342c;
+    --ink: #f5f0e6; --ink-2: #c3bba9; --ink-3: #8f8778;
+    --accent: #e39aa6; --accent-soft: #3a2328;
+    --series-1: #3987e5; --series-2: #d95926;
+    --good: #4ac26b; --bad: #f97066; --warn: #e3b341; --warn-soft: #3a2f12;
+    --shadow: none;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #15130f; --surface: #1e1b17; --surface-2: #2a2620; --border: #39342c;
+  --ink: #f5f0e6; --ink-2: #c3bba9; --ink-3: #8f8778;
+  --accent: #e39aa6; --accent-soft: #3a2328;
+  --series-1: #3987e5; --series-2: #d95926;
+  --good: #4ac26b; --bad: #f97066; --warn: #e3b341; --warn-soft: #3a2f12;
+  --shadow: none;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 Inter, system-ui, sans-serif; }
+h1, h2, .serif { font-family: Fraunces, Georgia, serif; font-weight: 700; }
+h1 { font-size: 28px; margin: 0; }
+h2 { font-size: 18px; margin: 0 0 12px; }
+[hidden] { display: none !important; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 24px 16px 64px; }
+header { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.sub { color: var(--ink-2); font-size: 13px; }
+.btn { border: 1px solid var(--border); background: var(--surface); color: var(--ink); padding: 8px 14px; border-radius: 10px; font: inherit; font-size: 14px; cursor: pointer; }
+.btn:hover { background: var(--surface-2); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.btn.small { padding: 4px 10px; font-size: 13px; }
+.btn.link { border: 0; background: none; color: var(--ink-3); text-decoration: underline; padding: 4px; font-size: 13px; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 18px; box-shadow: var(--shadow); }
+.grid { display: grid; gap: 16px; }
+.g-hero { grid-template-columns: 1.4fr 1fr; }
+.g-kpi { grid-template-columns: repeat(4, 1fr); }
+.g-2 { grid-template-columns: 1fr 1fr; }
+@media (max-width: 860px) { .g-hero, .g-2 { grid-template-columns: 1fr; } .g-kpi { grid-template-columns: repeat(2, 1fr); } }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 16px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { border: 1px solid var(--border); background: var(--surface); color: var(--ink-2); padding: 6px 12px; border-radius: 999px; font: inherit; font-size: 13px; cursor: pointer; }
+.chip.on { background: var(--ink); border-color: var(--ink); color: var(--surface); }
+.dates { display: flex; gap: 6px; align-items: center; font-size: 13px; color: var(--ink-2); margin-left: auto; }
+select, input { font: inherit; font-size: 14px; padding: 7px 10px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); color: var(--ink); }
+.hero { background: linear-gradient(135deg, var(--accent-soft), var(--surface)); }
+.hero .big { font-family: Fraunces, Georgia, serif; font-size: 44px; font-weight: 700; line-height: 1.1; }
+.hero .pig { font-size: 40px; float: right; }
+.split { display: flex; gap: 18px; margin-top: 12px; flex-wrap: wrap; }
+.split div { font-size: 13px; color: var(--ink-2); }
+.split b { display: block; font-size: 17px; color: var(--ink); }
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.kpi .lbl { font-size: 13px; color: var(--ink-2); }
+.kpi .val { font-size: 24px; font-weight: 600; margin-top: 2px; font-variant-numeric: tabular-nums; }
+.kpi .hint { font-size: 12px; color: var(--ink-3); }
+.box { display: grid; grid-template-columns: auto 1fr; gap: 4px 18px; align-items: center; }
+.box .emoji { font-size: 44px; grid-row: span 2; }
+.box .count { font-family: Fraunces, Georgia, serif; font-size: 40px; font-weight: 700; line-height: 1; }
+.box .count small { font-family: Inter, sans-serif; font-size: 14px; font-weight: 500; color: var(--ink-2); }
+.lines { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
+.lines div { background: var(--surface-2); border-radius: 10px; padding: 8px 10px; font-size: 12px; color: var(--ink-2); }
+.lines b { display: block; font-size: 16px; color: var(--ink); font-variant-numeric: tabular-nums; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+th { text-align: left; font-weight: 500; color: var(--ink-2); font-size: 12px; text-transform: uppercase; letter-spacing: .03em; border-bottom: 1px solid var(--border); padding: 8px 6px; }
+td { border-bottom: 1px solid var(--border); padding: 8px 6px; }
+td.n, th.n { text-align: right; }
+th.grp { text-align: center; border-bottom: 2px solid var(--border); }
+tr.tot td { font-weight: 600; border-bottom: 0; }
+tr.cmd { cursor: pointer; }
+tr.cmd:hover td { background: var(--surface-2); }
+tr.det td { background: var(--surface-2); font-size: 13px; }
+.scroll { overflow-x: auto; }
+.tag { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 999px; background: var(--surface-2); color: var(--ink-2); margin: 1px 2px 1px 0; }
+.tag.warn { background: var(--warn-soft); color: var(--warn); }
+.est { color: var(--ink-3); font-size: 11px; }
+.neg { color: var(--bad); }
+.ca3 td:first-child { color: var(--ink-3); width: 54px; }
+.check label { display: flex; gap: 10px; align-items: center; padding: 6px 0; cursor: pointer; }
+.check input { width: 18px; height: 18px; accent-color: var(--accent); }
+.check label.done span { text-decoration: line-through; color: var(--ink-3); }
+.progress { height: 8px; background: var(--surface-2); border-radius: 99px; overflow: hidden; margin: 8px 0 4px; }
+.progress div { height: 100%; background: var(--accent); border-radius: 99px; transition: width .4s; }
+.badges { display: flex; flex-wrap: wrap; gap: 10px; }
+.badge { text-align: center; width: 92px; padding: 10px 4px; border-radius: 14px; border: 1px dashed var(--border); color: var(--ink-3); font-size: 12px; }
+.badge .e { font-size: 26px; filter: grayscale(1); opacity: .4; }
+.badge.won { border-style: solid; border-color: var(--accent); color: var(--ink); background: var(--accent-soft); }
+.badge.won .e { filter: none; opacity: 1; }
+.alert { padding: 12px 14px; border-radius: 12px; background: var(--warn-soft); color: var(--ink); font-size: 14px; }
+.empty { text-align: center; padding: 48px 16px; }
+.empty .e { font-size: 48px; }
+.legend { display: flex; gap: 16px; font-size: 13px; color: var(--ink-2); margin-bottom: 6px; }
+#chart { position: relative; }
+#chart svg { width: 100%; height: 240px; display: block; }
+#chart .tip { position: absolute; pointer-events: none; background: var(--ink); color: var(--surface); font-size: 12px; padding: 8px 10px; border-radius: 8px; white-space: nowrap; opacity: 0; transition: opacity .1s; }
+dialog { border: 1px solid var(--border); border-radius: 16px; background: var(--surface); color: var(--ink); max-width: 640px; width: calc(100% - 32px); padding: 20px; }
+dialog::backdrop { background: rgba(0,0,0,.35); }
+.prod { border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 12px; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 6px 0; }
+.row input { min-width: 0; }
+.mt { margin-top: 16px; }
+.muted { color: var(--ink-3); font-size: 12px; }
+#lock { min-height: 100vh; display: grid; place-items: center; padding: 16px; }
+#lock .card { width: 100%; max-width: 380px; text-align: center; padding: 28px; }
+#lock .e { font-size: 48px; }
+#lock input { width: 100%; margin: 6px 0; }
+#lock .err { color: var(--bad); font-size: 13px; min-height: 20px; }
+</style>
+</head>
+<body>
+
+<section id="lock">
+  <form class="card" id="lockForm" autocomplete="off">
+    <div class="e">🔒</div>
+    <h2 id="lockTitre">Ma compta coffrets</h2>
+    <p class="sub" id="lockTexte"></p>
+    <input type="password" id="pw1" placeholder="Mot de passe" autocomplete="current-password" required>
+    <input type="password" id="pw2" placeholder="Confirme le mot de passe" autocomplete="new-password" hidden>
+    <div class="err" id="lockErr"></div>
+    <button class="btn primary" style="width:100%" id="lockBtn">Déverrouiller</button>
+    <button type="button" class="btn link" id="lockReset" hidden>Mot de passe oublié ? Tout effacer</button>
+  </form>
+</section>
+
+<div class="wrap" id="main" hidden>
+  <header>
+    <div>
+      <h1>📚 Ma compta coffrets</h1>
+      <div class="sub" id="source">Aucune donnée pour l'instant</div>
+    </div>
+    <div class="actions">
+      <button class="btn" id="btnImport">⬆︎ Importer un CSV Shopify</button>
+      <button class="btn" id="btnExport">⬇︎ Export comptable</button>
+      <button class="btn" id="btnConfig">⚙︎ Réglages</button>
+      <button class="btn" id="btnLock">🔒 Verrouiller</button>
+      <input type="file" id="file" accept=".csv" multiple hidden>
+    </div>
+  </header>
+  <div id="app"></div>
+</div>
+
+<dialog id="dlgConfig">
+  <h2>Mes coffrets et leurs taux</h2>
+  <p class="sub">Le prix payé pour un coffret est réparti entre ses composants au prorata de ces prix de référence. Un produit est reconnu si son nom Shopify contient l'un des mots-clés.</p>
+  <div id="cfgForm"></div>
+  <div class="row"><button class="btn small" id="cfgAddProd">+ Ajouter un coffret</button></div>
+  <div class="row">Taux pour un produit non reconnu : <input id="cfgDefaut" type="number" step="0.1" style="width:90px"> %</div>
+  <h2 class="mt">Frais bancaires et Shopify</h2>
+  <p class="sub">Utilisés quand Shopify ne donne pas les frais réels (import CSV, PayPal). Vérifie-les sur ton contrat.</p>
+  <div id="cfgFrais"></div>
+  <div class="row">Abonnement Shopify + applis : <input id="cfgAbo" type="number" step="0.01" style="width:100px"> € / mois</div>
+  <h2 class="mt">Commandes test</h2>
+  <div class="row">Noms à signaler 🧪 : <input id="cfgTests" style="flex:1" placeholder="Prénom Nom, Prénom Nom"></div>
+  <h2 class="mt">Sécurité</h2>
+  <div class="row"><input type="password" id="cfgPw" placeholder="Nouveau mot de passe" autocomplete="new-password" style="flex:1"><button class="btn small" id="cfgPwBtn">Changer le mot de passe</button></div>
+  <div class="row mt" style="justify-content:space-between">
+    <button class="btn small" id="cfgReset">Revenir aux réglages d'origine</button>
+    <span class="actions"><button class="btn" id="cfgCancel">Annuler</button><button class="btn primary" id="cfgSave">Enregistrer</button></span>
+  </div>
+</dialog>
+
+<script src="tva.js"></script>
+<script>window.SHOPIFY_DATA = null; window.SHOPIFY_DATA_ENC = null;</script>
+<script src="data.js"></script>
+<script>
+const { ventiler, totaliser, depuisCSVShopify, DEFAULT_CONFIG, avecDefauts, estNomTest, r2 } = window.TVA;
+// Les noms de clients viennent de l'extérieur : on les échappe avant de les afficher
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch]);
+const $ = (s) => document.querySelector(s);
+const eur = (n) => (n || 0).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
+const pct = (t) => String(t).replace('.', ',') + ' %';
+const MOIS = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+const EMOJI = { totale: '🎁', essentiel: '📖' };
+const VERROU_APRES_MIN = 15;
+
+// ---------- Chiffrement (PBKDF2-SHA256 + AES-GCM 256, via WebCrypto) ----------
+const ITER = 600000;
+const enc = new TextEncoder(), dec = new TextDecoder();
+const b64 = (buf) => {
+  const o = new Uint8Array(buf); let s = '';
+  for (let i = 0; i < o.length; i += 0x8000) s += String.fromCharCode(...o.subarray(i, i + 0x8000));
+  return btoa(s);
+};
+const unb64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+async function deriverCle(mdp, sel, iter = ITER) {
+  const base = await crypto.subtle.importKey('raw', enc.encode(mdp), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: sel, iterations: iter, hash: 'SHA-256' },
+    base, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+}
+async function chiffrer(cle, obj) {
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const ct = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, cle, enc.encode(JSON.stringify(obj)));
+  return { iv: b64(iv), ct: b64(ct) };
+}
+async function dechiffrer(cle, boite) {
+  const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(boite.iv) }, cle, unb64(boite.ct));
+  return JSON.parse(dec.decode(pt));
+}
+
+const ls = {
+  get(k) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+  del(k) { try { localStorage.removeItem(k); } catch {} },
+};
+
+// Coffre : tout ce qui est sensible (commandes importées, réglages, checklists), chiffré dans le navigateur
+let cleCoffre = null;
+let coffre = null; // { csv, config, checks }
+let shopify = null; // données de data.js déchiffrées
+let alerteShopify = '';
+async function sauver() { ls.set('cc.vault', await chiffrer(cleCoffre, coffre)); }
+
+function ecranVerrou() {
+  const nouveau = !ls.get('cc.vault');
+  $('#main').hidden = true; $('#lock').hidden = false;
+  $('#lockTexte').textContent = nouveau
+    ? 'Choisis un mot de passe (8 caractères minimum). Il chiffre toutes tes données sur cet ordinateur. Utilise le même pour la synchro Shopify.'
+    : 'Entre ton mot de passe pour ouvrir ta compta.';
+  $('#pw2').hidden = !nouveau;
+  $('#pw2').required = nouveau;
+  $('#lockBtn').textContent = nouveau ? 'Créer mon mot de passe' : 'Déverrouiller';
+  $('#lockReset').hidden = nouveau;
+  $('#pw1').focus();
+}
+
+$('#lockForm').onsubmit = async (e) => {
+  e.preventDefault();
+  const mdp = $('#pw1').value, err = $('#lockErr');
+  err.textContent = '';
+  $('#lockBtn').disabled = true;
+  try {
+    if (!ls.get('cc.vault')) {
+      if (mdp.length < 8) throw new Error('8 caractères minimum.');
+      if (mdp !== $('#pw2').value) throw new Error('Les deux mots de passe sont différents.');
+      const sel = crypto.getRandomValues(new Uint8Array(16));
+      ls.set('cc.salt', b64(sel));
+      cleCoffre = await deriverCle(mdp, sel);
+      // reprend les données non chiffrées d'une première version, puis les efface
+      coffre = { csv: ls.get('cc.csv') || [], config: ls.get('cc.config') || DEFAULT_CONFIG, checks: {} };
+      await sauver();
+      ['cc.csv', 'cc.config'].forEach(ls.del);
+      try { Object.keys(localStorage).filter((k) => k.startsWith('cc.check.')).forEach(ls.del); } catch {}
+    } else {
+      try {
+        cleCoffre = await deriverCle(mdp, unb64(ls.get('cc.salt')));
+        coffre = await dechiffrer(cleCoffre, ls.get('cc.vault'));
+      } catch { cleCoffre = null; throw new Error('Mot de passe incorrect.'); }
+    }
+    await ouvrirShopify(mdp);
+    $('#pw1').value = $('#pw2').value = '';
+    $('#lock').hidden = true; $('#main').hidden = false;
+    render();
+  } catch (x) { err.textContent = x.message; }
+  finally { $('#lockBtn').disabled = false; }
+};
+
+async function ouvrirShopify(mdp) {
+  shopify = null; alerteShopify = '';
+  const e = window.SHOPIFY_DATA_ENC;
+  if (e) {
+    try { shopify = await dechiffrer(await deriverCle(mdp, unb64(e.salt), e.iter), e); }
+    catch { alerteShopify = 'Les données synchronisées (data.js) ont été chiffrées avec un autre mot de passe. Relance la synchro avec ton mot de passe actuel.'; }
+  } else if (window.SHOPIFY_DATA) {
+    shopify = window.SHOPIFY_DATA;
+    alerteShopify = "data.js n'est pas chiffré : relance la synchro avec la nouvelle version du script pour le protéger.";
+  }
+}
+
+$('#lockReset').onclick = () => {
+  if (!confirm('Effacer toutes les données enregistrées dans ce navigateur (imports CSV, réglages, checklists) ? Les données Shopify pourront être resynchronisées.')) return;
+  ['cc.vault', 'cc.salt'].forEach(ls.del);
+  ecranVerrou();
+};
+const verrouiller = () => location.reload(); // efface la clé de la mémoire
+$('#btnLock').onclick = verrouiller;
+let derniereActivite = Date.now();
+['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach((ev) => addEventListener(ev, () => derniereActivite = Date.now(), { passive: true }));
+setInterval(() => { if (cleCoffre && Date.now() - derniereActivite > VERROU_APRES_MIN * 60000) verrouiller(); }, 30000);
+
+// ---------- Périodes ----------
+const ymd = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+function plage(preset) {
+  const a = new Date(), y = a.getFullYear(), m = a.getMonth(), q = Math.floor(m / 3) * 3;
+  const P = {
+    mois: [new Date(y, m, 1), new Date(y, m + 1, 0)],
+    moisDernier: [new Date(y, m - 1, 1), new Date(y, m, 0)],
+    trimestre: [new Date(y, q, 1), new Date(y, q + 3, 0)],
+    trimestreDernier: [new Date(y, q - 3, 1), new Date(y, q, 0)],
+    annee: [new Date(y, 0, 1), new Date(y, 11, 31)],
+    anneeDerniere: [new Date(y - 1, 0, 1), new Date(y - 1, 11, 31)],
+  };
+  return P[preset] ? P[preset].map(ymd) : ['', ''];
+}
+const PRESETS = [['mois', 'Ce mois'], ['moisDernier', 'Mois dernier'], ['trimestre', 'Ce trimestre'], ['trimestreDernier', 'Trimestre dernier'], ['annee', 'Cette année'], ['anneeDerniere', 'Année dernière'], ['tout', 'Tout']];
+let vue = ls.get('cc.view');
+if (!vue || !('du' in vue)) { const [du, au] = plage('mois'); vue = { preset: 'mois', du, au }; }
+if (vue.preset !== 'perso') [vue.du, vue.au] = plage(vue.preset); // les raccourcis suivent la date du jour
+const fr = (d) => d.split('-').reverse().join('/');
+const libelle = () => vue.du && vue.au ? `du ${fr(vue.du)} au ${fr(vue.au)}` : vue.du ? `depuis le ${fr(vue.du)}` : vue.au ? `jusqu'au ${fr(vue.au)}` : 'toute la période';
+
+let ouvertes = new Set();
+const config = () => avecDefauts(coffre.config);
+
+function commandesBrutes() {
+  const parNom = new Map();
+  for (const c of coffre.csv) parNom.set(c.nom, c);
+  for (const c of (shopify?.orders || [])) parNom.set(c.nom, c); // l'API prime
+  return [...parNom.values()];
+}
+const estTest = (c, cfg) => (coffre.tests || {})[c.nom] ?? (!!c.test || estNomTest(c.client, cfg));
+
+function commandes() {
+  const cfg = config();
+  return commandesBrutes().map((c) => ventiler(c, cfg)).filter(Boolean)
+    .map((c) => ({ ...c, test: estTest(c, cfg) }))
+    .sort((a, b) => b.date.localeCompare(a.date));
+}
+
+/** Toutes les commandes remboursées (même annulées) de la période, avec leur détail. */
+function remboursementsPeriode(cfg) {
+  return commandesBrutes()
+    .filter((c) => (c.rembourse || 0) > 0 && (!vue.du || c.date >= vue.du) && (!vue.au || c.date <= vue.au))
+    .map((c) => {
+      const v = ventiler({ ...c, annulee: false, rembourse: 0 }, cfg); // pour lire les coffrets
+      const paye = c.total != null ? c.total : v.ttc;
+      return { ...c, test: estTest(c, cfg), paye, partiel: c.rembourse < paye - 0.005, coffrets: v.parCoffret };
+    })
+    .filter((c) => !(vue.exclureTests && c.test))
+    .sort((a, b) => b.date.localeCompare(a.date));
+}
+
+function sectionRemboursements(cfg) {
+  const liste = remboursementsPeriode(cfg);
+  const total = r2(liste.reduce((s, c) => s + c.rembourse, 0));
+  const nbPartiels = liste.filter((c) => c.partiel).length;
+  const nomCoffret = (k) => (cfg.produits.find((p) => p.cle === k)?.nom || 'Autre').replace(/^Coffret /, '');
+  return `<div class="card mt">
+    <h2>Remboursements · ${libelle()}</h2>
+    ${liste.length ? `<p class="sub">${liste.length} commande${liste.length > 1 ? 's' : ''} remboursée${liste.length > 1 ? 's' : ''} pour <b>${eur(total)}</b>
+      · ${liste.length - nbPartiels} en totalité · ${nbPartiels} partiellement${liste.some((c) => c.test) ? ` · dont ${liste.filter((c) => c.test).length} commande(s) test 🧪` : ''}</p>
+    <div class="scroll"><table>
+      <tr><th>Commande</th><th>Date</th><th>Client</th><th>Coffrets</th><th class="n">Payé</th><th class="n">Remboursé</th><th class="n">Conservé</th><th>Type</th><th>Remboursé le</th><th>Motif</th></tr>
+      ${liste.map((c) => {
+        const rb = c.remboursements || [];
+        return `<tr><td>${esc(c.nom)}</td><td>${fr(c.date)}</td><td>${esc(c.client) || '–'}</td>
+        <td>${Object.entries(c.coffrets).map(([k, x]) => `${x.qte}× ${esc(nomCoffret(k))}`).join(', ') || '–'}</td>
+        <td class="n">${eur(c.paye)}</td><td class="n neg">− ${eur(c.rembourse)}</td><td class="n">${eur(c.paye - c.rembourse)}</td>
+        <td><span class="tag ${c.partiel ? 'warn' : ''}">${c.partiel ? 'Partiel' : 'Total'}</span>${c.annulee ? '<span class="tag">annulée</span>' : ''}${c.test ? '<span class="tag warn">🧪 test ?</span>' : ''}</td>
+        <td>${rb.length ? rb.map((r) => `${fr(r.date)} (${eur(r.montant)})`).join('<br>') : '<span class="muted">–</span>'}</td>
+        <td>${rb.map((r) => esc(r.motif)).filter(Boolean).join('<br>') || '<span class="muted">–</span>'}</td></tr>`;
+      }).join('')}
+    </table></div>
+    <p class="muted">Les commandes sont classées selon leur date de commande. Quand un remboursement a lieu un autre mois, la TVA se régularise normalement sur la déclaration du mois du remboursement : vérifie la colonne « Remboursé le ». Les dates et motifs viennent de la synchro Shopify (pas de l'import CSV).</p>`
+    : '<p class="sub">Aucun remboursement sur cette période 🎉</p>'}
+  </div>`;
+}
+
+function render() {
+  const cfg = config();
+  const toutes = commandes();
+  $('#source').textContent = [
+    shopify ? `Synchro Shopify : ${new Date(shopify.syncedAt).toLocaleString('fr-FR')} (${shopify.orders.length} commandes)` : null,
+    coffre.csv.length ? `${coffre.csv.length} commandes importées par CSV` : null,
+  ].filter(Boolean).join(' · ') || "Aucune donnée pour l'instant";
+
+  if (!toutes.length) {
+    $('#app').innerHTML = `${alerteShopify ? `<div class="alert">⚠️ ${alerteShopify}</div><br>` : ''}<div class="card empty"><div class="e">📦</div>
+      <h2>Pas encore de commandes</h2>
+      <p class="sub">Importe l'export CSV de tes commandes Shopify (Commandes → Exporter → « Toutes les commandes »),<br>
+      ou lance <code>python3 sync_shopify.py</code> pour une synchro automatique.</p>
+      <button class="btn primary" onclick="document.getElementById('file').click()">Importer un CSV</button></div>`;
+    return;
+  }
+
+  const periode = toutes.filter((c) => (!vue.du || c.date >= vue.du) && (!vue.au || c.date <= vue.au));
+  const nbTests = periode.filter((c) => c.test).length;
+  const sel = vue.exclureTests ? periode.filter((c) => !c.test) : periode;
+  const t = totaliser(sel);
+  const all = totaliser(vue.exclureTests ? toutes.filter((c) => !c.test) : toutes);
+  const tx = (k) => t.taux[k] || { ttc: 0, ht: 0, tva: 0 };
+  const autresTaux = Object.keys(t.taux).filter((k) => k !== '5.5' && k !== '20');
+
+  // Abonnement Shopify au prorata de la durée filtrée
+  const dates = sel.map((c) => c.date).sort();
+  const debut = vue.du || dates[0], fin = vue.au || dates[dates.length - 1];
+  const nbMois = debut && fin ? ((new Date(fin) - new Date(debut)) / 864e5 + 1) / 30.4375 : 0;
+  const abo = r2((cfg.abonnementMensuel || 0) * nbMois);
+  const fraisTotaux = r2(t.frais + abo);
+  const est = (montant) => montant > 0 ? ' <span class="est" title="Estimé avec le barème des réglages">estimé</span>' : '';
+
+  const carteCoffret = (p) => {
+    const x = t.parCoffret[p.cle] || { qte: 0, ttc: 0, frais: 0 };
+    return `<div class="card box">
+      <div class="emoji">${EMOJI[p.cle] || '📦'}</div>
+      <div class="sub">${p.nom}</div>
+      <div class="count">${x.qte} <small>coffret${x.qte > 1 ? 's' : ''} vendu${x.qte > 1 ? 's' : ''}</small></div>
+      <div class="lines" style="grid-column:1/-1">
+        <div>Montant brut TTC<b>${eur(x.ttc)}</b></div>
+        <div>Frais bancaires<b class="neg">− ${eur(x.frais)}</b></div>
+        <div>Net après frais<b>${eur(x.ttc - x.frais)}</b></div>
+      </div>
+    </div>`;
+  };
+
+  const paiements = Object.keys(t.matrice).sort();
+  const cellules = (x) => x ? `<td class="n">${x.qte}</td><td class="n">${eur(x.ttc)}</td><td class="n">${eur(x.ttc - x.frais)}</td>` : '<td class="n">0</td><td class="n">–</td><td class="n">–</td>';
+  const colonnes = [...cfg.produits.map((p) => [p.cle, p.nom.replace(/^Coffret /, '')]), ...(t.parCoffret.autre ? [['autre', 'Autres']] : [])];
+
+  $('#app').innerHTML = `
+  <div class="toolbar">
+    <div class="chips" id="presets">${PRESETS.map(([k, l]) => `<button class="chip ${vue.preset === k ? 'on' : ''}" data-p="${k}">${l}</button>`).join('')}</div>
+    <div class="dates">Du <input type="date" id="du" value="${vue.du}"> au <input type="date" id="au" value="${vue.au}"></div>
+  </div>
+  ${nbTests ? `<label class="alert" style="display:flex;gap:10px;align-items:center;margin-bottom:16px;cursor:pointer">
+    <input type="checkbox" id="exclureTests" ${vue.exclureTests ? 'checked' : ''} style="width:18px;height:18px;accent-color:var(--accent)">
+    <span>🧪 <b>${nbTests} commande${nbTests > 1 ? 's' : ''} test</b> possible${nbTests > 1 ? 's' : ''} sur cette période (repérée${nbTests > 1 ? 's' : ''} dans la liste). Coche pour ${nbTests > 1 ? 'les ' : "l'"}exclure des totaux et de la TVA.</span>
+  </label>` : ''}
+  ${alerteShopify ? `<div class="alert" style="margin-bottom:16px">⚠️ ${alerteShopify}</div>` : ''}
+
+  <div class="grid g-hero">
+    <div class="card hero">
+      <span class="pig">🐷</span>
+      <div class="sub">TVA à déclarer · ${libelle()}</div>
+      <div class="big">${eur(t.tva)}</div>
+      <div class="sub">à mettre de côté et à reverser aux impôts</div>
+      <div class="split">
+        <div><span class="dot" style="background:var(--series-1)"></span>TVA livres 5,5 %<b>${eur(tx('5.5').tva)}</b></div>
+        <div><span class="dot" style="background:var(--series-2)"></span>TVA goodies 20 %<b>${eur(tx('20').tva)}</b></div>
+        ${autresTaux.map((k) => `<div>TVA ${pct(k)}<b>${eur(t.taux[k].tva)}</b></div>`).join('')}
+      </div>
+    </div>
+    <div class="card check" id="checklist"></div>
+  </div>
+
+  <div class="grid g-2 mt">${cfg.produits.map(carteCoffret).join('')}</div>
+
+  <div class="grid g-kpi mt">
+    <div class="card kpi"><div class="lbl">Chiffre d'affaires TTC</div><div class="val">${eur(t.ttc)}</div><div class="hint">${eur(t.ht)} HT · ${t.commandes} commandes · dont ${eur(t.port)} de port</div></div>
+    <div class="card kpi"><div class="lbl">Remboursements</div><div class="val">${eur(t.remb.montant)}</div><div class="hint">${t.remb.nb} commande${t.remb.nb > 1 ? 's' : ''} prise${t.remb.nb > 1 ? 's' : ''} en compte · CA avant : ${eur(t.ttcAvantRemb)} · détail plus bas</div></div>
+    <div class="card kpi"><div class="lbl">Frais bancaires & Shopify</div><div class="val neg">− ${eur(fraisTotaux)}</div><div class="hint">paiements ${eur(t.frais)}${t.fraisEstimes ? ` (dont ${eur(t.fraisEstimes)} estimés)` : ''} · abonnement ${eur(abo)}</div></div>
+    <div class="card kpi"><div class="lbl">Net encaissé</div><div class="val">${eur(t.ttc - fraisTotaux)}</div><div class="hint">CA TTC − tous les frais</div></div>
+  </div>
+
+  ${Math.abs(t.ecartShopify) >= 0.01 ? `<div class="alert mt">⚠️ Shopify a affiché <b>${eur(t.tva + t.ecartShopify)}</b> de TVA sur cette période au lieu de <b>${eur(t.tva)}</b> (écart ${t.ecartShopify > 0 ? '+' : ''}${eur(t.ecartShopify)}). Utilise les montants de ce tableau pour ta déclaration.</div>` : ''}
+
+  <div class="card mt">
+    <h2>Par moyen de paiement</h2>
+    <div class="scroll"><table>
+      <tr><th></th>${colonnes.map(([, l]) => `<th colspan="3" class="grp">${l}</th>`).join('')}<th colspan="2" class="grp">Frais</th></tr>
+      <tr><th>Moyen</th>${colonnes.map(() => '<th class="n">Nb</th><th class="n">Brut TTC</th><th class="n">Net de frais</th>').join('')}<th class="n">Montant</th><th class="n">Taux moyen</th></tr>
+      ${paiements.map((pay) => { const m = t.matrice[pay], tot = m._total; return `<tr><td>${pay}</td>${colonnes.map(([k]) => cellules(m[k])).join('')}
+        <td class="n">${eur(tot.frais)}</td><td class="n">${tot.ttc ? (tot.frais / tot.ttc * 100).toFixed(1).replace('.', ',') + ' %' : '–'}</td></tr>`; }).join('')}
+      <tr class="tot"><td>Total</td>${colonnes.map(([k]) => cellules(t.parCoffret[k])).join('')}<td class="n">${eur(t.frais)}</td><td class="n">${t.ttc ? (t.frais / t.ttc * 100).toFixed(1).replace('.', ',') + ' %' : '–'}</td></tr>
+    </table></div>
+    <p class="muted">« Shopify Payments » = cartes bancaires (dont Apple Pay). Les paiements PayPal passés par Shopify Payments sont comptés dans PayPal. Montants TTC frais de port inclus, après remboursements. ${t.fraisEstimes ? `Une partie des frais (${eur(t.fraisEstimes)}) est estimée avec le barème des réglages, car Shopify ne les fournit pas pour ces commandes (import CSV ou PayPal).` : 'Frais réels fournis par Shopify.'}</p>
+  </div>
+
+  ${sectionRemboursements(cfg)}
+
+  <div class="grid g-2 mt">
+    <div class="card">
+      <h2>Ma déclaration de TVA (CA3)</h2>
+      <table class="ca3">
+        <tr><th>Ligne</th><th></th><th class="n">Base HT</th><th class="n">TVA</th></tr>
+        <tr><td>01</td><td>Ventes (total)</td><td class="n">${eur(t.ht)}</td><td></td></tr>
+        <tr><td>08</td><td>Taux normal 20 %</td><td class="n">${eur(tx('20').ht)}</td><td class="n">${eur(tx('20').tva)}</td></tr>
+        <tr><td>09</td><td>Taux réduit 5,5 %</td><td class="n">${eur(tx('5.5').ht)}</td><td class="n">${eur(tx('5.5').tva)}</td></tr>
+        ${autresTaux.map((k) => `<tr><td>?</td><td>Taux ${pct(k)}</td><td class="n">${eur(t.taux[k].ht)}</td><td class="n">${eur(t.taux[k].tva)}</td></tr>`).join('')}
+        <tr><td>16</td><td><b>TVA brute due</b></td><td></td><td class="n"><b>${eur(t.tva)}</b></td></tr>
+      </table>
+      <p class="muted">TVA collectée, après remboursements. Pense à déduire ta TVA sur achats (livres, goodies, emballages, abonnement Shopify…) ligne 20. Numéros de ligne à confirmer sur ton formulaire. Choisis des dates qui correspondent exactement à ta période de déclaration.</p>
+    </div>
+    <div class="card">
+      <h2>TVA collectée par mois</h2>
+      <div class="legend"><span><span class="dot" style="background:var(--series-1)"></span>Livres 5,5 %</span><span><span class="dot" style="background:var(--series-2)"></span>Goodies 20 %</span></div>
+      <div id="chart"><div class="tip"></div></div>
+    </div>
+  </div>
+
+  <div class="card mt">
+    <h2>Mes trophées</h2>
+    <div class="badges">${badges(all)}</div>
+  </div>
+
+  <div class="card mt">
+    <h2>Commandes · ${libelle()}</h2>
+    <p class="muted">Clique sur une commande pour voir sa ventilation (ce qui devrait figurer sur la facture). Coche la case 🧪 d'une commande pour la marquer comme test.</p>
+    <div class="scroll"><table>
+      <tr><th title="Commande test">🧪</th><th>Date</th><th>Commande</th><th>Client</th><th>Paiement</th><th>Coffrets</th><th class="n">TTC</th><th class="n">Frais</th><th class="n">TVA 5,5 %</th><th class="n">TVA 20 %</th><th class="n">TVA Shopify</th><th></th></tr>
+      ${periode.map((c) => ligneCommande(c, cfg)).join('')}
+    </table></div>
+  </div>`;
+
+  renderChecklist();
+  renderChart(sel, debut, fin);
+
+  $('#presets').onclick = (e) => { const p = e.target.dataset.p; if (!p) return; [vue.du, vue.au] = plage(p); vue.preset = p; majVue(); };
+  $('#du').onchange = (e) => { vue.du = e.target.value; vue.preset = 'perso'; majVue(); };
+  $('#au').onchange = (e) => { vue.au = e.target.value; vue.preset = 'perso'; majVue(); };
+  const ex = $('#exclureTests');
+  if (ex) ex.onchange = (e) => { vue.exclureTests = e.target.checked; majVue(); };
+  document.querySelectorAll('input.test').forEach((cb) => {
+    cb.onclick = (e) => e.stopPropagation();
+    cb.onchange = async (e) => {
+      const nom = e.target.dataset.nom, c = toutes.find((x) => x.nom === nom);
+      coffre.tests = coffre.tests || {};
+      // on ne garde un choix manuel que s'il diffère de la détection automatique par le nom
+      const auto = !!(shopify?.orders || coffre.csv).find((x) => x.nom === nom)?.test || estNomTest(c.client, cfg);
+      if (e.target.checked === auto) delete coffre.tests[nom]; else coffre.tests[nom] = e.target.checked;
+      await sauver(); render();
+    };
+  });
+  document.querySelectorAll('tr.cmd').forEach((tr) => tr.onclick = () => {
+    const n = tr.dataset.nom; ouvertes.has(n) ? ouvertes.delete(n) : ouvertes.add(n); render();
+  });
+}
+function majVue() { ls.set('cc.view', vue); render(); }
+
+function ligneCommande(c, cfg) {
+  const v = (k) => c.taux[k] ? eur(c.taux[k].tva) : '–';
+  const coffrets = Object.entries(c.parCoffret).map(([k, x]) => `${x.qteCommandee}× ${(cfg.produits.find((p) => p.cle === k)?.nom || 'Autre').replace(/^Coffret /, '')}`).join(', ') || '–';
+  const ecart = c.ecartShopify != null && Math.abs(c.ecartShopify) >= 0.01;
+  const exclue = c.test && vue.exclureTests;
+  let html = `<tr class="cmd" data-nom="${esc(c.nom)}" style="${exclue ? 'opacity:.45' : ''}"><td><input type="checkbox" class="test" data-nom="${esc(c.nom)}" ${c.test ? 'checked' : ''} title="Commande test"></td>
+    <td>${fr(c.date)}</td><td>${esc(c.nom)}</td><td>${esc(c.client) || '–'}</td><td>${esc(c.paiement)}</td><td>${coffrets}</td>
+    <td class="n">${eur(c.ttc)}</td><td class="n">${eur(c.frais)}${c.fraisEstime ? '<span class="est">*</span>' : ''}</td><td class="n">${v('5.5')}</td><td class="n">${v('20')}</td>
+    <td class="n">${c.taxesShopify != null ? eur(c.taxesShopify) : '–'}</td>
+    <td>${c.test ? `<span class="tag warn">🧪 test ?${exclue ? ' · exclue' : ''}</span>` : ''}${c.rembourse ? '<span class="tag">remboursée</span>' : ''}${ecart ? '<span class="tag warn">écart Shopify</span>' : ''}${c.alertes.filter((a) => !a.startsWith('Rembours')).length ? '<span class="tag warn">⚠︎</span>' : ''}</td></tr>`;
+  if (ouvertes.has(c.nom)) {
+    html += `<tr class="det"><td colspan="12">
+      <table><tr><th>Élément</th><th class="n">Taux</th><th class="n">TTC</th><th class="n">HT</th><th class="n">TVA</th></tr>
+      ${c.detail.map((d) => { const tva = r2(d.ttc * d.taux / (100 + d.taux)); return `<tr><td>${esc(d.libelle)}${d.qte > 1 ? ` ×${d.qte}` : ''}</td><td class="n">${pct(d.taux)}</td><td class="n">${eur(d.ttc)}</td><td class="n">${eur(d.ttc - tva)}</td><td class="n">${eur(tva)}</td></tr>`; }).join('')}
+      </table>
+      ${c.fraisEstime ? '<div class="muted">* frais estimés avec le barème des réglages</div>' : ''}
+      ${c.alertes.map((a) => `<div class="tag warn">${esc(a)}</div>`).join(' ')}
+    </td></tr>`;
+  }
+  return html;
+}
+
+function badges(all) {
+  const n = Object.values(all.coffrets).reduce((s, x) => s + x, 0);
+  const list = [
+    ['📦', 'Premier coffret', n >= 1],
+    ['📚', '50 coffrets', n >= 50],
+    ['🏅', '100 coffrets', n >= 100],
+    ['🏆', '500 coffrets', n >= 500],
+    ['👑', '1 000 coffrets', n >= 1000],
+    ['💶', '10 k€ de CA', all.ttc >= 10000],
+    ['🚀', '50 k€ de CA', all.ttc >= 50000],
+  ];
+  return list.map(([e, l, ok]) => `<div class="badge ${ok ? 'won' : ''}"><div class="e">${e}</div>${l}</div>`).join('')
+    + `<div class="badge won"><div class="e">✨</div>${n} coffrets au total</div>`;
+}
+
+function renderChecklist() {
+  const k = `${vue.du}_${vue.au}`;
+  const fait = coffre.checks[k] || {};
+  const etapes = [
+    ['sync', 'Données Shopify à jour'],
+    ['ecarts', 'Alertes vérifiées (⚠︎ dans la liste)'],
+    ['tirelire', 'TVA mise de côté sur un compte dédié'],
+    ['declare', 'Déclaration déposée sur impots.gouv.fr'],
+    ['export', 'Export envoyé au comptable / archivé'],
+  ];
+  const nb = etapes.filter(([id]) => fait[id]).length;
+  const el = $('#checklist');
+  el.innerHTML = `<h2>Ma checklist ${nb === etapes.length ? '🎉' : ''}</h2>
+    <div class="progress"><div style="width:${(nb / etapes.length) * 100}%"></div></div>
+    <div class="muted">${nb}/${etapes.length} étapes · ${libelle()}</div>
+    ${etapes.map(([id, l]) => `<label class="${fait[id] ? 'done' : ''}"><input type="checkbox" data-id="${id}" ${fait[id] ? 'checked' : ''}><span>${l}</span></label>`).join('')}`;
+  el.onchange = async (e) => { fait[e.target.dataset.id] = e.target.checked; coffre.checks[k] = fait; renderChecklist(); await sauver(); };
+}
+
+function renderChart(sel, debut, fin) {
+  if (!debut || !fin) return;
+  const mois = [];
+  for (let d = new Date(debut.slice(0, 7) + '-01T00:00'); ymd(d) <= fin && mois.length < 36; d.setMonth(d.getMonth() + 1)) {
+    const cle = ymd(d).slice(0, 7);
+    const t = totaliser(sel.filter((c) => c.date.startsWith(cle)));
+    mois.push({ i: mois.length, cle, nom: `${MOIS[d.getMonth()]}${mois.length && d.getMonth() ? '' : ' ' + String(d.getFullYear()).slice(2)}`, a: t.taux['5.5']?.tva || 0, b: t.taux['20']?.tva || 0 });
+  }
+  const max = Math.max(1, ...mois.map((m) => m.a + m.b));
+  const mag = Math.pow(10, Math.floor(Math.log10(max / 4)));
+  const top = 4 * mag * [1, 2, 2.5, 5, 10].find((s) => s * mag * 4 >= max);
+  const W = 600, H = 240, L = 56, B = 26, T = 10, w = (W - L) / mois.length, bw = Math.min(36, w * 0.6);
+  const y = (v) => T + (H - T - B) * (1 - v / top);
+  const arrondiHaut = (x, y0, h, r) => { r = Math.min(r, h); return h <= 0 ? '' : `M${x},${y0 + h}V${y0 + r}q0,-${r} ${r},-${r}h${bw - 2 * r}q${r},0 ${r},${r}V${y0 + h}Z`; };
+  let g = '';
+  for (let k = 0; k <= 4; k++) {
+    const v = (top / 4) * k;
+    g += `<line x1="${L}" x2="${W}" y1="${y(v)}" y2="${y(v)}" stroke="var(--border)" stroke-width="1"/>
+      <text x="${L - 8}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="var(--ink-3)">${Math.round(v).toLocaleString('fr-FR')} €</text>`;
+  }
+  const pasEtiquette = Math.ceil(mois.length / 12);
+  for (const m of mois) {
+    const x = L + m.i * w + (w - bw) / 2;
+    const hA = (H - T - B) * (m.a / top), hB = (H - T - B) * (m.b / top);
+    const yA = y(m.a);
+    if (hB > 0) {
+      g += `<rect x="${x}" y="${yA}" width="${bw}" height="${hA}" fill="var(--series-1)"/>`;
+      g += `<path d="${arrondiHaut(x, yA - hB, Math.max(0, hB - 2), 4)}" fill="var(--series-2)"/>`;
+    } else g += `<path d="${arrondiHaut(x, yA, hA, 4)}" fill="var(--series-1)"/>`;
+    if (m.i % pasEtiquette === 0) g += `<text x="${x + bw / 2}" y="${H - 8}" text-anchor="middle" font-size="11" fill="var(--ink-3)">${m.nom}</text>`;
+    g += `<rect class="hit" data-i="${m.i}" x="${L + m.i * w}" y="0" width="${w}" height="${H}" fill="transparent"/>`;
+  }
+  const el = $('#chart');
+  el.insertAdjacentHTML('afterbegin', `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="TVA collectée par mois">${g}</svg>`);
+  const tip = el.querySelector('.tip');
+  el.querySelectorAll('.hit').forEach((h) => {
+    h.onmousemove = (e) => {
+      const m = mois[h.dataset.i];
+      const [yy, mm] = m.cle.split('-');
+      tip.innerHTML = `<b>${MOIS[mm - 1]} ${yy}</b><br>Livres 5,5 % : ${eur(m.a)}<br>Goodies 20 % : ${eur(m.b)}<br>Total : ${eur(m.a + m.b)}`;
+      const r = el.getBoundingClientRect();
+      tip.style.left = Math.min(e.clientX - r.left + 12, r.width - 170) + 'px';
+      tip.style.top = (e.clientY - r.top - 20) + 'px'; tip.style.opacity = 1;
+    };
+    h.onmouseleave = () => tip.style.opacity = 0;
+  });
+}
+
+// ---------- Import / export ----------
+$('#btnImport').onclick = () => $('#file').click();
+$('#file').onchange = async (e) => {
+  let n = 0;
+  const parNom = new Map(coffre.csv.map((c) => [c.nom, c]));
+  for (const f of e.target.files) {
+    for (const c of depuisCSVShopify(await f.text())) { parNom.set(c.nom, c); n++; }
+  }
+  coffre.csv = [...parNom.values()];
+  e.target.value = '';
+  await sauver();
+  render();
+  alert(`${n} commandes importées et chiffrées ✅`);
+};
+
+$('#btnExport').onclick = () => {
+  const sel = commandes().filter((c) => (!vue.du || c.date >= vue.du) && (!vue.au || c.date <= vue.au) && !(vue.exclureTests && c.test)).reverse();
+  const f = (n) => (n || 0).toFixed(2).replace('.', ',');
+  const lignes = [['Date', 'Commande', 'Paiement', 'Pays', 'Nb La Totale', "Nb L'Essentiel", 'TTC', 'HT 5,5%', 'TVA 5,5%', 'HT 20%', 'TVA 20%', 'Total HT', 'Total TVA', 'Frais de port TTC', 'Remboursé', 'Frais bancaires', 'Frais estimés', 'TVA Shopify', 'Test possible', 'Alertes']];
+  for (const c of sel) {
+    const t = (k) => c.taux[k] || {};
+    lignes.push([c.date, c.nom, c.paiement, c.pays, c.coffrets.totale || 0, c.coffrets.essentiel || 0, f(c.ttc), f(t('5.5').ht), f(t('5.5').tva), f(t('20').ht), f(t('20').tva), f(c.ht), f(c.tva), f(c.port), f(c.rembourse), f(c.frais), c.fraisEstime ? 'oui' : 'non', c.taxesShopify != null ? f(c.taxesShopify) : '', c.test ? 'oui' : 'non', c.alertes.join(' | ')]);
+  }
+  const csv = '﻿' + lignes.map((l) => l.map((v) => `"${String(v ?? '').replace(/"/g, '""')}"`).join(';')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+  a.download = `tva-coffrets-${vue.du || 'debut'}_${vue.au || 'fin'}.csv`;
+  a.click();
+};
+
+// ---------- Réglages ----------
+let brouillon;
+function renderConfig() {
+  $('#cfgDefaut').value = brouillon.tauxParDefaut;
+  $('#cfgAbo').value = brouillon.abonnementMensuel;
+  $('#cfgTests').value = (brouillon.nomsTest || []).join(', ');
+  $('#cfgFrais').innerHTML = Object.entries(brouillon.frais).map(([k, v]) => `<div class="row"><span style="width:140px">${k}</span>
+    <input data-frais="${k}" data-f="pct" type="number" step="0.01" value="${v.pct}" style="width:80px"> % +
+    <input data-frais="${k}" data-f="fixe" type="number" step="0.01" value="${v.fixe}" style="width:80px"> € par commande</div>`).join('');
+  $('#cfgForm').innerHTML = brouillon.produits.map((p, i) => `
+    <div class="prod">
+      <div class="row"><input data-p="${i}" data-f="nom" value="${p.nom}" style="flex:1" placeholder="Nom du coffret">
+        <button class="btn small" data-del="${i}">Supprimer</button></div>
+      <div class="row">Mots-clés : <input data-p="${i}" data-f="motsCles" value="${p.motsCles.join(', ')}" style="flex:1"></div>
+      ${p.composants.map((c, j) => `<div class="row">
+        <input data-p="${i}" data-c="${j}" data-f="nom" value="${c.nom}" style="width:140px">
+        <input data-p="${i}" data-c="${j}" data-f="ttc" type="number" step="0.01" value="${c.ttc}" style="width:90px"> € TTC à
+        <select data-p="${i}" data-c="${j}" data-f="taux">${[2.1, 5.5, 10, 20].map((t) => `<option value="${t}" ${t === c.taux ? 'selected' : ''}>${pct(t)}</option>`).join('')}</select>
+        <button class="btn small" data-delc="${i}.${j}">✕</button></div>`).join('')}
+      <button class="btn small" data-addc="${i}">+ composant</button>
+      <span class="muted"> Total de référence : ${eur(p.composants.reduce((s, c) => s + Number(c.ttc), 0))}</span>
+    </div>`).join('');
+}
+$('#btnConfig').onclick = () => { brouillon = structuredClone(config()); renderConfig(); $('#dlgConfig').showModal(); };
+$('#cfgFrais').oninput = (e) => { const { frais, f } = e.target.dataset; if (frais) brouillon.frais[frais][f] = Number(e.target.value) || 0; };
+$('#cfgForm').oninput = (e) => {
+  const { p, c, f } = e.target.dataset; if (p == null) return;
+  const v = e.target.value;
+  if (c != null) brouillon.produits[p].composants[c][f] = f === 'nom' ? v : Number(v);
+  else if (f === 'motsCles') brouillon.produits[p].motsCles = v.split(',').map((s) => s.trim()).filter(Boolean);
+  else brouillon.produits[p][f] = v;
+};
+$('#cfgForm').onclick = (e) => {
+  const d = e.target.dataset;
+  if (d.del != null) brouillon.produits.splice(d.del, 1);
+  else if (d.addc != null) brouillon.produits[d.addc].composants.push({ nom: 'Composant', ttc: 0, taux: 20 });
+  else if (d.delc != null) { const [i, j] = d.delc.split('.'); brouillon.produits[i].composants.splice(j, 1); }
+  else return;
+  renderConfig();
+};
+$('#cfgAddProd').onclick = () => { brouillon.produits.push({ cle: 'p' + Date.now(), nom: 'Nouveau coffret', motsCles: [], composants: [{ nom: 'Livre', ttc: 0, taux: 5.5 }] }); renderConfig(); };
+$('#cfgReset').onclick = () => { brouillon = structuredClone(DEFAULT_CONFIG); renderConfig(); };
+$('#cfgCancel').onclick = () => $('#dlgConfig').close();
+$('#cfgSave').onclick = async () => {
+  brouillon.tauxParDefaut = Number($('#cfgDefaut').value) || 20;
+  brouillon.abonnementMensuel = Number($('#cfgAbo').value) || 0;
+  brouillon.nomsTest = $('#cfgTests').value.split(',').map((x) => x.trim()).filter(Boolean);
+  coffre.config = brouillon; await sauver(); $('#dlgConfig').close(); render();
+};
+$('#cfgPwBtn').onclick = async () => {
+  const mdp = $('#cfgPw').value;
+  if (mdp.length < 8) return alert('8 caractères minimum.');
+  const sel = crypto.getRandomValues(new Uint8Array(16));
+  cleCoffre = await deriverCle(mdp, sel);
+  ls.set('cc.salt', b64(sel));
+  await sauver();
+  $('#cfgPw').value = '';
+  alert('Mot de passe changé ✅ Relance la synchro Shopify avec ce nouveau mot de passe.');
+};
+
+ecranVerrou();
+</script>
+</body>
+</html>
